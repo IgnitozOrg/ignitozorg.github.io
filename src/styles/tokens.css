@@ -1,0 +1,16 @@
+@layer tokens, base, home;
+
+@layer tokens {
+  :root {
+    color-scheme: dark;
+    --landing-bg: #030303;
+    --landing-surface: rgba(10, 10, 10, 0.78);
+    --landing-surface-strong: rgba(15, 15, 15, 0.92);
+    --landing-text: #f7f7f7;
+    --landing-muted: #cecece;
+    --landing-border: rgba(255, 255, 255, 0.12);
+    --landing-accent: #ffc800;
+    --landing-accent-shadow: rgba(255, 200, 0, 0.34);
+    --landing-shadow: rgba(0, 0, 0, 0.48);
+  }
+}
