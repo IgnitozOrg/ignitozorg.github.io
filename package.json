@@ -1,7 +1,10 @@
 {
-  "name": "ignitozorg.github.io",
+  "name": "ignitoz.com",
   "version": "0.0.1",
   "scripts": {
+    "dev": "vite --port 8000",
+    "build": "vite build",
+    "preview": "vite preview --port 8000",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +18,8 @@
     "url": "https://github.com/IgnitozOrg/ignitozorg.github.io/issues"
   },
   "homepage": "https://github.com/IgnitozOrg/ignitozorg.github.io#readme",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "vite": "8.0.8"
+  }
 }
