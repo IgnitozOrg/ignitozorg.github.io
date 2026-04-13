@@ -1,6 +1,6 @@
 .landing-shell {
   position: relative;
-  min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   color: var(--landing-text);
@@ -96,7 +96,7 @@
 .landing-hero {
   position: relative;
   width: min(1180px, 100%);
-  min-height: calc(100vh - 5.5rem);
+  min-height: calc(100svh - 5.5rem);
   overflow: hidden;
   border: 1px solid var(--landing-border);
   border-radius: 1.5rem;
@@ -244,7 +244,7 @@
   }
 
   .landing-hero {
-    min-height: min(760px, calc(100vh - 6.5rem));
+    min-height: min(760px, calc(100svh - 6.5rem));
     border-radius: 2rem;
   }
 
