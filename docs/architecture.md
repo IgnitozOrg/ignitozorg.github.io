@@ -2,103 +2,115 @@
 
 ## Overview
 
-This project is a static SPA landing page for Ignitoz.
+This project is an SPA landing page for Ignitoz built with Vue 3.5 and TypeScript.
 
-The current architecture favors native web technologies, a lightweight Vite workflow, and compatibility with static hosting after running the production build.
+The architecture follows Vue 3.5 official recommendations: Composition API with `<script setup>`, Single-File Components, Pinia for state management, Vue Router for navigation, and Vitest for testing.
 
 ## Technical Direction
 
-- Use HTML, CSS, and JavaScript as the core stack.
-- Keep the landing page static and client-side only.
+- Use Vue 3.5 with TypeScript as the core stack.
+- Use Vite as the build tool.
 - Keep the static entry point at the repository root as `index.html`.
-- Keep application source code and supporting assets under `src/`.
-- Do not add a frontend framework unless the project grows beyond a simple landing page.
-- Use Vite 8 as the production build tool.
+- Keep all application source code under `src/`.
+- Use Composition API exclusively — do not use Options API.
+- Use `<script setup>` syntax in all Single-File Components.
 - Keep production compatible with static hosting from the Vite build output.
 
-## JavaScript Design
+## Project Structure
 
-- Use ES Modules with `<script type="module">`.
-- Use the Module Pattern to separate responsibilities by file.
-- Use a small entry point, such as `main.js`, to initialize page behavior.
-- Add modules only when they provide clear separation, for example:
-  - navigation behavior
-  - scroll behavior
-  - analytics integration
-  - form handling
-- Keep state minimal and local to the behavior that needs it.
-- Prefer native browser APIs before adding dependencies.
+```text
+src/
+  main.ts          # App entry point: creates app, registers plugins, mounts
+  App.vue          # Root component with <RouterView>
+  router/          # Vue Router configuration and route definitions
+  pages/           # Route-level page components (one folder per page)
+  features/        # Feature modules with their own components, composables, and logic
+  components/      # Shared/reusable UI components (not tied to a specific feature)
+  composables/     # Shared composable functions (useXxx pattern)
+  stores/          # Pinia stores
+  services/        # API clients, external service integrations
+  utils/           # Pure utility/helper functions
+  types/           # Shared TypeScript types and interfaces
+  styles/          # Global CSS: tokens, base rules
+  assets/          # Static assets (images, fonts, SVGs)
+```
+
+### Folder Responsibilities
+
+- `pages/`: one folder per route (e.g. `pages/Home/`, `pages/About/`). Each contains a page-level `.vue` component and optionally page-scoped styles.
+- `features/`: self-contained feature modules. A feature may include its own components, composables, types, and stores when the scope is feature-specific.
+- `components/`: shared UI components used across multiple pages or features. Co-locate test files next to the component (e.g. `BaseButton.vue` and `BaseButton.spec.ts`).
+- `composables/`: shared stateful logic following the `useXxx` naming convention. Return plain objects with refs for destructuring support.
+- `stores/`: Pinia stores using the Composition API syntax (`defineStore` with `setup` function).
+- `services/`: API calls and integrations with external services. Keep HTTP logic separate from components and stores.
+- `utils/`: pure functions with no Vue dependency. Stateless helpers for formatting, validation, etc.
+- `types/`: shared TypeScript interfaces, type aliases, and enums.
+
+## Component Design
+
+- Author all components as Single-File Components (`.vue`).
+- Use `<script setup lang="ts">` in every component.
+- Use `defineProps` and `defineEmits` with TypeScript type-based declarations.
+- Use `defineModel` for two-way binding where appropriate.
+- Prefer scoped styles (`<style scoped>`) to avoid CSS leakage.
+- Use multi-word component names (e.g. `BaseButton`, `HomePage`) to avoid conflicts with HTML elements.
+- Co-locate unit tests next to the component file they test.
+
+## Composables
+
+- Name composable functions with the `use` prefix (e.g. `useMouse`, `useFetch`).
+- Encapsulate stateful reactive logic using Vue's Composition API (`ref`, `computed`, `watch`, `onMounted`, etc.).
+- Always return plain objects containing refs — do not return reactive objects — so consumers can destructure without losing reactivity.
+- Accept `ref`, getter, or raw values as inputs; normalize with `toValue()`.
+- Clean up side effects in `onUnmounted`.
+- Call composables only inside `<script setup>` or the `setup()` function, synchronously.
+
+## State Management
+
+- Use Pinia as the single state management solution.
+- Define stores with the Composition API syntax (`defineStore` with a setup function).
+- Keep stores focused on a single domain concern.
+- For simple, component-local state, use `ref`/`reactive` directly — not everything needs a store.
+
+## Routing
+
+- Use Vue Router with `createRouter` and `createWebHistory`.
+- Define routes in `src/router/index.ts`.
+- Use lazy-loaded route components with dynamic `import()` for code splitting.
 
 ## CSS Design
 
-- Use native CSS.
-- Use kebab-case for class names.
-- Prefer CSS custom properties for shared design tokens such as colors, spacing, and radii.
-- Import global stylesheets from the Vite JavaScript entry point.
-- Use modular CSS organization by physically separating styles into purpose-based files.
-- Keep root-level tokens, global base rules, and page-specific styles in separate files.
-- Do not use bundler-style CSS Modules by default, even though Vite supports them.
-- Do not keep tokens, base rules, and home styles in the same file.
+- Use scoped styles in SFCs as the default.
+- For short component styles, keep the `<style scoped>` block inside the `.vue` file.
+- For larger page-level styles, co-locate a CSS file with the page component and import it from the SFC with `<style scoped src="./PageName.css"></style>`, as in `src/pages/Home/HomePage.vue` and `src/pages/Home/HomePage.css`.
+- Use kebab-case for CSS class names.
+- Use CSS custom properties for shared design tokens (colors, spacing, radii).
+- Keep global tokens in `src/styles/tokens.css` and base rules in `src/styles/base.css`.
+- Import global stylesheets from `src/main.ts`.
+- Name page-specific classes with a stable page prefix such as `landing-*` so templates remain readable and page styles do not collide with shared component classes.
 
-Required CSS organization:
+## Testing
 
-```text
-index.html
-src/
-  main.js
-  styles/
-    tokens.css
-    base.css
-    home.css
-```
+- Use Vitest as the test runner.
+- Use `@vue/test-utils` for component testing with `mount`/`shallowMount`.
+- Co-locate test files next to the source file (e.g. `BaseButton.spec.ts` beside `BaseButton.vue`).
+- Name test files with the `.spec.ts` suffix.
 
-Responsibilities:
+## TypeScript
 
-- `index.html`: static site entry point used by Vite in development and production builds.
-- `main.js`: Vite JavaScript entry point that imports global CSS and initializes page behavior.
-- `tokens.css`: `:root`, design tokens, CSS custom properties, and theme-level values.
-- `base.css`: global base rules such as `box-sizing`, document-level defaults, and user preference media queries.
-- `home.css`: styles specific to the landing page or home page sections.
-
-This is modular CSS organization, not bundler-style CSS Modules. Files are imported from `src/main.js` with Vite's standard CSS imports.
-
-When JavaScript modules are added, prefer one of these two CSS loading approaches:
-
-- Keep page-level global CSS imported from `src/main.js` when the styles are global to the landing page.
-- Import feature-specific CSS from JavaScript with Vite's standard CSS imports, for example `import "./feature.css";`, when the styles belong to a JS module.
-
-Do not use CSS module scripts with `with { type: "css" }` unless Web Components, Shadow DOM, or constructable stylesheets become a requirement.
-
-## CSS Imports From JavaScript
-
-Native CSS imports from JavaScript are possible with CSS module scripts:
-
-```js
-import sheet from "./styles.css" with { type: "css" };
-
-document.adoptedStyleSheets = [
-  ...document.adoptedStyleSheets,
-  sheet,
-];
-```
-
-This is different from bundler-style CSS Modules that export class name mappings:
-
-```js
-import styles from "./button.module.css";
-```
-
-For this landing page, prefer Vite's standard CSS imports unless Web Components, Shadow DOM, or another clear use case makes CSS module scripts worthwhile.
+- Use strict TypeScript configuration.
+- Prefer type-based `defineProps<{}>()` and `defineEmits<{}>()` over runtime declarations.
+- Place shared types in `src/types/`. Keep feature-specific types inside their feature folder.
 
 ## Current Decisions
 
-- Architecture: static SPA landing page.
-- Runtime: browser only.
-- Backend: none.
-- Framework: none for now.
-- Build tool: Vite 8.
-- JavaScript pattern: ES Modules plus Module Pattern.
-- CSS approach: native CSS, modular organization, kebab-case classes, CSS custom properties.
+- Architecture: SPA landing page.
+- Framework: Vue 3.5 with Composition API and `<script setup>`.
+- Language: TypeScript.
+- Build tool: Vite.
+- Routing: Vue Router.
+- State management: Pinia.
+- Testing: Vitest + @vue/test-utils.
+- CSS approach: scoped styles in SFCs, co-located page CSS via `<style scoped src>`, global tokens/base via CSS custom properties.
 - Site entry point: root `index.html`.
-- Source root for supporting code/assets: `src/`.
-- CSS loading: standard Vite CSS imports from `src/main.js`.
+- Source root: `src/`.
