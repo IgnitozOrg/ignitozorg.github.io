@@ -1,7 +1,9 @@
 @layer home {
-  body.landing-page {
-    margin: 0;
+  .landing-shell {
+    position: relative;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     color: var(--landing-text);
     font-family: "Space Grotesk", "Segoe UI", sans-serif;
     background:
@@ -10,7 +12,7 @@
       linear-gradient(180deg, #090909 0%, #020202 100%);
   }
 
-  body.landing-page::before {
+  .landing-shell::before {
     content: "";
     position: fixed;
     inset: 0;
@@ -24,13 +26,6 @@
         transparent 140px
       );
     pointer-events: none;
-  }
-
-  .landing-shell {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
   }
 
   .landing-header {
