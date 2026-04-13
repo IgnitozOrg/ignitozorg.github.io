@@ -81,10 +81,13 @@ src/
 ## CSS Design
 
 - Use scoped styles in SFCs as the default.
+- For short component styles, keep the `<style scoped>` block inside the `.vue` file.
+- For larger page-level styles, co-locate a CSS file with the page component and import it from the SFC with `<style scoped src="./PageName.css"></style>`, as in `src/pages/Home/HomePage.vue` and `src/pages/Home/HomePage.css`.
 - Use kebab-case for CSS class names.
 - Use CSS custom properties for shared design tokens (colors, spacing, radii).
 - Keep global tokens in `src/styles/tokens.css` and base rules in `src/styles/base.css`.
 - Import global stylesheets from `src/main.ts`.
+- Name page-specific classes with a stable page prefix such as `landing-*` so templates remain readable and page styles do not collide with shared component classes.
 
 ## Testing
 
@@ -108,6 +111,6 @@ src/
 - Routing: Vue Router.
 - State management: Pinia.
 - Testing: Vitest + @vue/test-utils.
-- CSS approach: scoped styles in SFCs, global tokens/base via CSS custom properties.
+- CSS approach: scoped styles in SFCs, co-located page CSS via `<style scoped src>`, global tokens/base via CSS custom properties.
 - Site entry point: root `index.html`.
 - Source root: `src/`.
