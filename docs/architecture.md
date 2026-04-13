@@ -4,7 +4,7 @@
 
 This project is a static SPA landing page for Ignitoz.
 
-The current architecture favors native web technologies, a lightweight Vite development workflow, and compatibility with static hosting such as GitHub Pages after running the Vite production build.
+The current architecture favors native web technologies, a lightweight Vite workflow, and compatibility with static hosting after running the production build.
 
 ## Technical Direction
 
@@ -12,11 +12,9 @@ The current architecture favors native web technologies, a lightweight Vite deve
 - Keep the landing page static and client-side only.
 - Keep the static entry point at the repository root as `index.html`.
 - Keep application source code and supporting assets under `src/`.
-- Keep repository-level hosting metadata, such as `CNAME`, at the repository root.
 - Do not add a frontend framework unless the project grows beyond a simple landing page.
-- Use Vite 8 as the local development server and production build tool.
-- Keep production compatible with static hosting from the Vite build output and preserve the existing `CNAME` configuration.
-- Deploy GitHub Pages through GitHub Actions by building the site and publishing the generated `dist/` directory.
+- Use Vite 8 as the production build tool.
+- Keep production compatible with static hosting from the Vite build output.
 
 ## JavaScript Design
 
@@ -92,47 +90,15 @@ import styles from "./button.module.css";
 
 For this landing page, prefer Vite's standard CSS imports unless Web Components, Shadow DOM, or another clear use case makes CSS module scripts worthwhile.
 
-## Local Development
-
-Use Vite 8:
-
-```bash
-npm run dev
-```
-
-Then open:
-
-```text
-http://localhost:8000
-```
-
-The `dev` script runs Vite on port 8000:
-
-```bash
-vite --port 8000
-```
-
-Use `npm run build` to generate the production build and `npm run preview` to preview it locally.
-
-## Deployment
-
-GitHub Pages is deployed through `.github/workflows/pages.yml`.
-
-The workflow runs on pushes to `main`, configures GitHub Pages with `actions/configure-pages`, installs dependencies with `npm ci`, builds the site with `npm run build`, uploads the generated `dist/` directory as a Pages artifact, and deploys that artifact with `actions/deploy-pages`.
-
-Keep the custom domain file in `public/CNAME` so Vite copies it into `dist/CNAME` during production builds.
-
 ## Current Decisions
 
 - Architecture: static SPA landing page.
 - Runtime: browser only.
 - Backend: none.
 - Framework: none for now.
-- Build tool and dev server: Vite 8.
+- Build tool: Vite 8.
 - JavaScript pattern: ES Modules plus Module Pattern.
 - CSS approach: native CSS, modular organization, kebab-case classes, CSS custom properties.
 - Site entry point: root `index.html`.
 - Source root for supporting code/assets: `src/`.
 - CSS loading: standard Vite CSS imports from `src/main.js`.
-- Deployment: GitHub Actions publishes the Vite `dist/` output to GitHub Pages.
-- Local server: Vite through `npm run dev`.
