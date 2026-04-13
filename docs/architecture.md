@@ -118,7 +118,7 @@ Use `npm run build` to generate the production build and `npm run preview` to pr
 
 GitHub Pages is deployed through `.github/workflows/pages.yml`.
 
-The workflow runs on pushes to `main`, configures GitHub Pages with `actions/configure-pages`, installs dependencies with `npm ci`, builds the site with `npm run build`, uploads the generated `dist/` directory as a Pages artifact, and deploys that artifact with `actions/deploy-pages`.
+The workflow runs on pushes to `main`, configures GitHub Pages with `actions/configure-pages`, installs dependencies with `npm install`, builds the site with `npm run build`, uploads the generated `dist/` directory as a Pages artifact, and deploys that artifact with `actions/deploy-pages`.
 
 Keep the custom domain file in `public/CNAME` so Vite copies it into `dist/CNAME` during production builds.
 
