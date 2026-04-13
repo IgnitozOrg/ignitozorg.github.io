@@ -50,7 +50,7 @@
 
   .landing-brand-text {
     display: inline-block;
-    font-family: "Sora", "Space Grotesk", sans-serif;
+    font-family: "Montserrat", "Space Grotesk", sans-serif;
     font-size: 0.82rem;
     font-weight: 800;
     letter-spacing: 0.16em;
@@ -153,7 +153,7 @@
 
   .landing-hero-title {
     margin: 0;
-    font-family: "Sora", "Space Grotesk", sans-serif;
+    font-family: "Montserrat", "Space Grotesk", sans-serif;
     font-size: clamp(1.75rem, 9vw, 2.6rem);
     line-height: 1;
     font-weight: 800;

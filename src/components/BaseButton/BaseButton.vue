@@ -23,6 +23,7 @@ const { href, variant = 'accent', target, rel } = defineProps<{
 .btn {
   display: inline-flex;
   align-items: center;
+  font-family: "Montserrat", "Space Grotesk", sans-serif;
   justify-content: center;
   gap: 0.75rem;
   border-radius: 999px;
