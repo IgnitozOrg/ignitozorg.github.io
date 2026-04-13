@@ -14,7 +14,6 @@ The architecture follows Vue 3.5 official recommendations: Composition API with 
 - Keep all application source code under `src/`.
 - Use Composition API exclusively — do not use Options API.
 - Use `<script setup>` syntax in all Single-File Components.
-- Keep production compatible with static hosting from the Vite build output.
 
 ## Project Structure
 
