@@ -42,13 +42,15 @@ context: |
   - `src/assets/`: static images, fonts, and SVG assets.
 
   Naming and imports:
-  - Use multi-word PascalCase component names such as `BaseButton` and `HomePage`.
-  - Name composables with the `use` prefix and return plain objects containing refs.
+  - Use kebab-case for folders and filenames under `src/`, except conventional framework entry files such as `src/main.ts` and `src/App.vue`; companion tests for conventional entry files may keep the same base filename, such as `src/App.spec.ts`.
+  - Use multi-word PascalCase component names in code, such as `BaseButton` and `HomePage`, even when files are kebab-case.
+  - Name composable functions with the `use` prefix and return plain objects containing refs, while keeping composable filenames kebab-case.
   - Use kebab-case CSS class names.
   - Name page-specific classes with a stable page prefix such as `landing-*`.
   - Prefer type-based `defineProps<{}>()` and `defineEmits<{}>()` declarations.
   - Keep shared types in `src/types/` and feature-specific types inside their feature module.
-  - Preserve the local convention of the area being edited instead of forcing a repo-wide rewrite.
+  - Feature-specific code stays inside its feature folder and is organized by responsibility with folders such as `components/`, `composables/`, `services/`, `utils/`, `stores/`, and `types/`.
+  - Every tested unit lives in its own directory with its `.spec.ts` file beside the implementation file.
 
   Runtime and data flow:
   - A typical page flow is: route -> page component -> feature or shared composable -> store/service/helper -> UI update.
@@ -59,7 +61,8 @@ context: |
 
   Quality and tooling:
   - The project uses strict TypeScript, Vite, vue-tsc, Vue plugins for Vite, linting-compatible structure, and automated tests.
-  - Unit tests use Vitest and @vue/test-utils with `.spec.ts` files co-located next to the source under test.
+  - Unit tests use Vitest and @vue/test-utils with `.spec.ts` files beside the source under test.
+  - Do not create `__tests__`, `tests`, or centralized unit-test folders under `src/`.
   - Browser and DOM-oriented testing support is provided by Playwright and jsdom.
   - Node.js runtime support is `^20.19.0 || >=22.12.0`.
   - Before merging changes, keep code, tests, architecture, stack docs, and OpenSpec artifacts aligned.

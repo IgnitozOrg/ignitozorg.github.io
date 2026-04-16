@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
-import BaseButton from "./BaseButton.vue";
+import BaseButton from "./base-button.vue";
 
 describe("BaseButton", () => {
   it("renders slot content", () => {
