@@ -1,0 +1,176 @@
+.latest-videos {
+  width: min(100%, 64rem);
+  margin-top: 0.35rem;
+}
+
+.latest-videos-header {
+  margin-bottom: 0.75rem;
+  text-align: left;
+}
+
+.latest-videos-kicker,
+.latest-videos-title,
+.latest-videos-status {
+  margin: 0;
+}
+
+.latest-videos-kicker {
+  color: var(--landing-accent);
+  font-family: "Montserrat", "Space Grotesk", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.latest-videos-title {
+  margin-top: 0.2rem;
+  color: var(--landing-text);
+  font-family: "Montserrat", "Space Grotesk", sans-serif;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.latest-videos-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.latest-video-card {
+  min-height: 8.8rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  background: rgba(8, 8, 8, 0.68);
+  color: var(--landing-text);
+  text-align: left;
+  text-decoration: none;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 14px 32px rgba(0, 0, 0, 0.26);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease;
+}
+
+.latest-video-card:hover,
+.latest-video-card:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(255, 200, 0, 0.54);
+  background: rgba(18, 18, 18, 0.82);
+}
+
+.latest-video-card:focus-visible {
+  outline: 2px solid var(--landing-accent);
+  outline-offset: 3px;
+}
+
+.latest-video-thumb {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: block;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.latest-video-thumb img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 180ms ease;
+}
+
+.latest-video-card:hover .latest-video-thumb img,
+.latest-video-card:focus-visible .latest-video-thumb img {
+  transform: scale(1.04);
+}
+
+.latest-video-title {
+  min-height: 2.75rem;
+  padding: 0.55rem 0.65rem 0.7rem;
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--landing-text);
+  font-family: "Montserrat", "Space Grotesk", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.3;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.latest-videos-fallback {
+  position: relative;
+}
+
+.latest-video-card--placeholder {
+  pointer-events: none;
+}
+
+.latest-video-thumb--placeholder,
+.latest-video-title--placeholder {
+  position: relative;
+  overflow: hidden;
+}
+
+.latest-video-thumb--placeholder::after,
+.latest-video-title--placeholder::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+  transform: translateX(-100%);
+  animation: latest-video-sheen 1500ms ease-in-out infinite;
+}
+
+.latest-video-title--placeholder {
+  width: calc(100% - 1.3rem);
+  min-height: 0.85rem;
+  margin: 0.7rem 0.65rem;
+  padding: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.latest-videos-status {
+  margin-top: 0.65rem;
+  color: var(--landing-muted);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  text-align: left;
+}
+
+@keyframes latest-video-sheen {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@media (min-width: 761px) {
+  .latest-videos {
+    margin-top: 0.75rem;
+  }
+
+  .latest-videos-header {
+    text-align: center;
+    margin-bottom: 0.85rem;
+  }
+
+  .latest-videos-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+
+  .latest-video-card {
+    min-height: 9.4rem;
+  }
+
+  .latest-video-title {
+    font-size: 0.82rem;
+  }
+}
