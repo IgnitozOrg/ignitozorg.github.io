@@ -13,62 +13,56 @@ context: |
   Project: ignitozorg.github.io
   Language: English
   Domain: SPA landing page for Ignitoz.
-  Stack: Vue 3.5, TypeScript, Vite 8, Vue Router 5, Pinia 3, Vitest, @vue/test-utils, Playwright, jsdom.
-  Runtime: Node.js ^20.19.0 or >=22.12.0.
+  Stack: Vue 3.5, TypeScript 6, Vite 8, Vue Router 5, Pinia 3, Vitest, @vue/test-utils, Playwright, jsdom.
 
   Architecture:
-  - The application is a Vue 3.5 single-page landing page built with Composition API and Single-File Components.
-  - Use `<script setup lang="ts">` for all Vue components and avoid Options API.
-  - The static entry point remains the root `index.html`.
-  - Application source code lives under `src/`.
-  - `src/main.ts` creates the Vue app, registers plugins, imports global styles, and mounts the application.
-  - `src/App.vue` is the root component and renders Vue Router output through `<RouterView>`.
-  - Routing is defined in `src/router/index.ts` with `createRouter`, `createWebHistory`, and lazy-loaded route components.
-  - Pinia is the single state management solution for shared domain state.
-  - Component-local state should use Vue refs or reactive primitives directly when a store is unnecessary.
-  - Services wrap API calls and external integrations so HTTP logic stays out of components and stores.
+  - The application is a Vue 3.5 single-page landing page built with TypeScript.
+  - The architecture follows Vue 3.5 recommendations: Composition API, Single-File Components, `<script setup>`, Pinia, Vue Router, and Vitest.
+  - `index.html` remains the static entry point at the repository root.
+  - All application source code lives under `src/`.
+  - Components are authored as `.vue` Single-File Components with `<script setup lang="ts">`.
+  - Composition API is used exclusively; Options API should not be introduced.
+  - Vue Router owns navigation and lazy-loaded route components for code splitting.
+  - Pinia is the single shared state management solution, while local component state stays in refs or reactive state.
+  - Services isolate API calls and external integrations from components and stores.
 
   Source layout:
-  - src/pages/: route-level page components, organized one folder per route with optional page-scoped styles.
-  - src/features/: self-contained feature modules with feature-specific components, composables, types, logic, and stores when needed.
-  - src/components/: shared reusable UI components used across pages or features.
-  - src/composables/: shared stateful logic using the `useXxx` naming convention.
-  - src/stores/: Pinia stores defined with the Composition API setup syntax.
-  - src/services/: API clients and external service integrations.
-  - src/utils/: stateless pure helpers with no Vue dependency.
-  - src/types/: shared TypeScript interfaces, aliases, and enums.
-  - src/styles/: global CSS tokens and base rules.
-  - src/assets/: static images, fonts, and SVGs.
+  - `src/main.ts`: app entry point that creates the app, registers plugins, imports global styles, and mounts.
+  - `src/App.vue`: root component with `RouterView`.
+  - `src/router/`: Vue Router configuration and route definitions.
+  - `src/pages/`: route-level page components, one folder per route.
+  - `src/features/`: self-contained feature modules with feature-specific components, composables, stores, types, and logic.
+  - `src/components/`: shared reusable UI components used across pages or features.
+  - `src/composables/`: shared stateful Composition API logic using the `useXxx` naming pattern.
+  - `src/stores/`: Pinia stores defined with setup-style `defineStore`.
+  - `src/services/`: API clients and external service integrations.
+  - `src/utils/`: pure stateless helper functions with no Vue dependency.
+  - `src/types/`: shared TypeScript interfaces, type aliases, and enums.
+  - `src/styles/`: global CSS tokens and base rules.
+  - `src/assets/`: static images, fonts, and SVG assets.
 
-  Naming and conventions:
-  - Vue components use multi-word PascalCase names such as `BaseButton` or `HomePage`.
-  - Composables use the `useXxx` naming pattern and return plain objects containing refs.
-  - Pinia stores stay focused on a single domain concern and use `defineStore` with a setup function.
-  - CSS class names use kebab-case.
-  - Page-specific classes should use a stable page prefix such as `landing-*`.
-  - Prefer scoped styles in Single-File Components to avoid CSS leakage.
-  - Keep short component styles in the `.vue` file.
-  - Co-locate larger page-level CSS files with the page component and import them with `<style scoped src="./PageName.css"></style>`.
-  - Keep shared design tokens in `src/styles/tokens.css` and base global rules in `src/styles/base.css`.
-  - Co-locate component unit tests next to the component file and use the `.spec.ts` suffix.
+  Naming and imports:
+  - Use multi-word PascalCase component names such as `BaseButton` and `HomePage`.
+  - Name composables with the `use` prefix and return plain objects containing refs.
+  - Use kebab-case CSS class names.
+  - Name page-specific classes with a stable page prefix such as `landing-*`.
+  - Prefer type-based `defineProps<{}>()` and `defineEmits<{}>()` declarations.
+  - Keep shared types in `src/types/` and feature-specific types inside their feature module.
   - Preserve the local convention of the area being edited instead of forcing a repo-wide rewrite.
 
   Runtime and data flow:
-  - A typical flow is: route -> page component -> feature composable or store -> service/client -> UI state update.
-  - Shared state belongs in focused Pinia stores.
-  - Component-local state belongs in Vue refs or reactive primitives.
-  - Stateful reusable logic belongs in composables using `ref`, `computed`, `watch`, lifecycle hooks, and cleanup in `onUnmounted`.
-  - Composables should accept ref, getter, or raw inputs when appropriate and normalize with `toValue()`.
-  - Composables must be called synchronously inside `<script setup>` or `setup()`.
-  - The codebase should be treated as an application, not as a reusable library.
+  - A typical page flow is: route -> page component -> feature or shared composable -> store/service/helper -> UI update.
+  - Shared domain state belongs in focused Pinia stores; simple UI state stays local to components.
+  - Composables encapsulate reactive behavior with `ref`, `computed`, `watch`, lifecycle hooks, and cleanup in `onUnmounted`.
+  - Composable inputs may accept refs, getters, or raw values and normalize them with `toValue()`.
+  - Global CSS custom properties define shared design tokens for colors, spacing, and radii.
 
   Quality and tooling:
-  - The project uses strict TypeScript configuration.
-  - Prefer type-based `defineProps<{}>()` and `defineEmits<{}>()` over runtime declarations.
-  - Use `defineModel` for two-way binding where appropriate.
-  - Use Vitest as the test runner and @vue/test-utils for Vue component tests.
-  - Use Playwright for browser-level testing when end-to-end coverage is needed.
-  - Before merging changes, expect implementation, tests, and documentation to stay aligned.
+  - The project uses strict TypeScript, Vite, vue-tsc, Vue plugins for Vite, linting-compatible structure, and automated tests.
+  - Unit tests use Vitest and @vue/test-utils with `.spec.ts` files co-located next to the source under test.
+  - Browser and DOM-oriented testing support is provided by Playwright and jsdom.
+  - Node.js runtime support is `^20.19.0 || >=22.12.0`.
+  - Before merging changes, keep code, tests, architecture, stack docs, and OpenSpec artifacts aligned.
 
 # Per-artifact rules (optional)
 # Add custom rules for specific artifacts.
@@ -84,6 +78,13 @@ rules:
   proposal:
     - Keep proposal focused on functional scope, motivation, and impact.
     - Do not include concrete asset paths, icon names, component names, route internals, translation keys, or validator names unless they are essential to scope.
-    - Put asset details, implementation choices, routing decisions, and rendering details in design.md.
+    - Put technical design detail such as asset paths, implementation choices, routing decisions, and rendering details in design.md.
+  specs:
+    - Define expected behavior using requirements and scenarios as the behavioral source of truth.
+    - Keep specs non-technical and focused on observable behavior, user-facing outcomes, and external contracts.
+    - Use normative language such as SHALL or MUST, and preserve the required OpenSpec requirement and scenario heading format.
+    - Write scenarios in a structured acceptance style such as GIVEN/WHEN/THEN or an equivalent structured behavior format.
+    - Do not include file paths, classes, functions, component names, commands, validation helper names, or architecture decisions.
+    - Put assets, routing mechanics, translation namespaces, and implementation detail in design.md unless they are directly part of the observable contract.
   design:
     - Record concrete asset paths, component reuse decisions, routing approach, translation namespaces, and validation strategy here when relevant.
