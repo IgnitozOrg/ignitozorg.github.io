@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import WelcomeItem from "./WelcomeItem.vue";
-import DocumentationIcon from "./icons/IconDocumentation.vue";
-import ToolingIcon from "./icons/IconTooling.vue";
-import EcosystemIcon from "./icons/IconEcosystem.vue";
-import CommunityIcon from "./icons/IconCommunity.vue";
-import SupportIcon from "./icons/IconSupport.vue";
+import WelcomeItem from "../welcome-item/welcome-item.vue";
+import DocumentationIcon from "../icons/icon-documentation/icon-documentation.vue";
+import ToolingIcon from "../icons/icon-tooling/icon-tooling.vue";
+import EcosystemIcon from "../icons/icon-ecosystem/icon-ecosystem.vue";
+import CommunityIcon from "../icons/icon-community/icon-community.vue";
+import SupportIcon from "../icons/icon-support/icon-support.vue";
 
 const openReadmeInEditor = () => fetch("/__open-in-editor?file=README.md");
 </script>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import BaseButton from "../../components/BaseButton/BaseButton.vue";
+import BaseButton from "../../components/base-button/base-button.vue";
+import LatestVideosSection from "../../features/latest-videos/components/latest-videos-section/latest-videos-section.vue";
 </script>
 
 <template>
@@ -46,10 +47,12 @@ import BaseButton from "../../components/BaseButton/BaseButton.vue";
               <span class="landing-channel-icon" aria-hidden="true">→</span>
             </BaseButton>
           </div>
+
+          <LatestVideosSection />
         </div>
       </section>
     </main>
   </div>
 </template>
 
-<style scoped src="./HomePage.css"></style>
+<style scoped src="./home-page.css"></style>

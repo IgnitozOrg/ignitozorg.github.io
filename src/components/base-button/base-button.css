@@ -1,34 +1,3 @@
-<script setup lang="ts">
-const {
-  href,
-  variant = "accent",
-  target,
-  rel,
-  ariaLabel,
-} = defineProps<{
-  href: string;
-  variant?: "accent" | "ghost";
-  target?: string;
-  rel?: string;
-  ariaLabel?: string;
-}>();
-</script>
-
-<template>
-  <!-- biome-ignore lint/a11y/useAnchorContent: Link text is provided by component slot content. -->
-  <a
-    :href="href"
-    :target="target"
-    :rel="rel"
-    :aria-label="ariaLabel"
-    class="btn"
-    :class="`btn--${variant}`"
-  >
-    <slot />
-  </a>
-</template>
-
-<style scoped>
 .btn {
   display: inline-flex;
   align-items: center;
@@ -93,4 +62,3 @@ const {
     padding: 0.35rem 0.4rem 0.35rem 1.55rem;
   }
 }
-</style>
