@@ -114,14 +114,28 @@ Do not move feature-specific code to root-level `src/services/`, `src/utils/`, `
 
 ## CSS Design
 
-- Use scoped styles in SFCs as the default.
-- For short component styles, keep the `<style scoped>` block inside the `.vue` file.
-- For larger page-level styles, co-locate a CSS file with the page component and import it from the SFC with `<style scoped src="./home-page.css"></style>`, as in `src/pages/home/home-page.vue` and `src/pages/home/home-page.css`.
+- Keep component and page CSS in independent `.css` files when a `.vue` file needs local styles.
+- Co-locate the CSS file beside the `.vue` file and use the same kebab-case base filename.
+- Import local styles from the SFC with `<style scoped src="./component-name.css"></style>`.
+- Do not write inline `<style scoped>` blocks in `.vue` files, except for temporary prototypes that must be extracted before merge.
 - Use kebab-case for CSS class names.
 - Use CSS custom properties for shared design tokens (colors, spacing, radii).
 - Keep global tokens in `src/styles/tokens.css` and base rules in `src/styles/base.css`.
 - Import global stylesheets from `src/main.ts`.
 - Name page-specific classes with a stable page prefix such as `landing-*` so templates remain readable and page styles do not collide with shared component classes.
+
+Example:
+
+```text
+src/components/base-button/
+  base-button.vue
+  base-button.css
+  base-button.spec.ts
+```
+
+```vue
+<style scoped src="./base-button.css"></style>
+```
 
 ## Testing
 
