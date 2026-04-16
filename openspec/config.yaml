@@ -46,6 +46,7 @@ context: |
   - Use multi-word PascalCase component names in code, such as `BaseButton` and `HomePage`, even when files are kebab-case.
   - Name composable functions with the `use` prefix and return plain objects containing refs, while keeping composable filenames kebab-case.
   - Use kebab-case CSS class names.
+  - Keep component and page CSS in independent `.css` files beside the `.vue` file, using the same kebab-case base filename and importing it with `<style scoped src="./component-name.css"></style>`.
   - Name page-specific classes with a stable page prefix such as `landing-*`.
   - Prefer type-based `defineProps<{}>()` and `defineEmits<{}>()` declarations.
   - Keep shared types in `src/types/` and feature-specific types inside their feature module.

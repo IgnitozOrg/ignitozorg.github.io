@@ -61,6 +61,7 @@ src/features/user-profile/
   components/
     user-profile-card/
       user-profile-card.vue
+      user-profile-card.css
       user-profile-card.spec.ts
   composables/
     use-user-profile/
@@ -86,7 +87,7 @@ Do not move feature-specific code to root-level `src/services/`, `src/utils/`, `
 - Use `<script setup lang="ts">` in every component.
 - Use `defineProps` and `defineEmits` with TypeScript type-based declarations.
 - Use `defineModel` for two-way binding where appropriate.
-- Prefer scoped styles (`<style scoped>`) to avoid CSS leakage.
+- Prefer scoped style imports (`<style scoped src="./component-name.css"></style>`) to avoid CSS leakage.
 - Use multi-word component names in code (e.g. `BaseButton`, `HomePage`) to avoid conflicts with HTML elements.
 - Place each component in its own directory with its unit test beside it.
 
@@ -187,6 +188,6 @@ src/__tests__/user-profile/profile-service.spec.ts
 - Routing: Vue Router.
 - State management: Pinia.
 - Testing: Vitest + @vue/test-utils.
-- CSS approach: scoped styles in SFCs, co-located page CSS via `<style scoped src>`, global tokens/base via CSS custom properties.
+- CSS approach: co-located `.css` files imported from SFCs via `<style scoped src>`, global tokens/base via CSS custom properties.
 - Site entry point: root `index.html`.
 - Source root: `src/`.
