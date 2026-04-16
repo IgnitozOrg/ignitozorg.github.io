@@ -19,8 +19,11 @@ body {
   *,
   *::before,
   *::after {
+    /* biome-ignore lint/complexity/noImportantStyles: Required to override component motion for reduced-motion users. */
     animation: none !important;
+    /* biome-ignore lint/complexity/noImportantStyles: Required to override component motion for reduced-motion users. */
     transition: none !important;
+    /* biome-ignore lint/complexity/noImportantStyles: Required to override component motion for reduced-motion users. */
     scroll-behavior: auto !important;
   }
 }
