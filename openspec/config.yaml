@@ -83,12 +83,14 @@ rules:
     - Keep proposal focused on functional scope, motivation, and impact.
     - Do not include concrete asset paths, icon names, component names, route internals, translation keys, or validator names unless they are essential to scope.
     - Put technical design detail such as asset paths, implementation choices, routing decisions, and rendering details in design.md.
+    - Do not include technical implementation details, architecture decisions, or rendering specifics.
   specs:
     - Define expected behavior using requirements and scenarios as the behavioral source of truth.
     - Keep specs non-technical and focused on observable behavior, user-facing outcomes, and external contracts.
     - Use normative language such as SHALL or MUST, and preserve the required OpenSpec requirement and scenario heading format.
-    - Write scenarios in a structured acceptance style such as GIVEN/WHEN/THEN or an equivalent structured behavior format.
+    - Write scenarios using a consistent structured step format (e.g., WHEN/THEN) that matches the established spec template.
     - Do not include file paths, classes, functions, component names, commands, validation helper names, or architecture decisions.
     - Put assets, routing mechanics, translation namespaces, and implementation detail in design.md unless they are directly part of the observable contract.
   design:
     - Record concrete asset paths, component reuse decisions, routing approach, translation namespaces, and validation strategy here when relevant.
+    - Include any external reference links provided by the user, such as design tool URLs, backend API documentation, or any other resource relevant to the implementation.

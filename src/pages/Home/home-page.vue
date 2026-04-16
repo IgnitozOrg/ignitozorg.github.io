@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import BaseButton from "../../components/base-button/base-button.vue";
-import LatestVideosSection from "../../features/latest-videos/components/latest-videos-section/latest-videos-section.vue";
 </script>
 
 <template>
@@ -48,7 +47,6 @@ import LatestVideosSection from "../../features/latest-videos/components/latest-
             </BaseButton>
           </div>
 
-          <LatestVideosSection />
         </div>
       </section>
     </main>
