@@ -25,6 +25,14 @@ Run the local development server:
 npm run dev
 ```
 
+Configure local environment variables:
+
+```sh
+cp .env.example .env.local
+```
+
+Set `VITE_YOUTUBE_API_KEY` in `.env.local` to a YouTube Data API v3 key for loading the latest channel videos.
+
 Type-check and build for production:
 
 ```sh

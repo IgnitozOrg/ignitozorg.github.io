@@ -88,15 +88,17 @@
 .landing-main {
   flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 2.5rem;
   padding: 1rem 0.75rem 1.5rem;
 }
 
 .landing-hero {
   position: relative;
   width: min(1180px, 100%);
-  min-height: calc(100svh - 5.5rem);
+  min-height: min(34rem, calc(100svh - 5.5rem));
   overflow: hidden;
   border: 1px solid var(--landing-border);
   border-radius: 1.5rem;
@@ -240,11 +242,12 @@
   }
 
   .landing-main {
+    gap: 3rem;
     padding: 1.75rem 1rem 3rem;
   }
 
   .landing-hero {
-    min-height: min(760px, calc(100svh - 6.5rem));
+    min-height: min(520px, calc(100svh - 14rem));
     border-radius: 2rem;
   }
 
