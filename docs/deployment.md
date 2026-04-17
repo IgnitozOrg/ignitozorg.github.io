@@ -27,6 +27,14 @@ The build job:
 - Builds the site with `npm run build`
 - Uploads the `dist` directory as the GitHub Pages artifact
 
+The latest videos section reads `VITE_YOUTUBE_API_KEY` at build time. Configure a
+GitHub Actions secret with that name before deploying. Because Vite exposes
+frontend environment variables in the built JavaScript, restrict the YouTube Data
+API v3 key in Google Cloud to the production HTTP referrers for `ignitoz.com`,
+any required GitHub Pages preview or custom domains, and local development
+origins used by maintainers. Set quota limits so a leaked or abused browser key
+cannot consume unrestricted quota.
+
 ## Publish
 
 The deploy job:
