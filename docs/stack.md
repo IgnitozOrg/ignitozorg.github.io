@@ -24,7 +24,7 @@
 
 ## Node
 
-- [Node.js](https://nodejs.org/) `^20.19.0 || >=22.12.0`
+- [Node.js](https://nodejs.org/) `>=24.0.0 <25.0.0` (the selected patch must also satisfy locked dependency engines)
 
 ## Tooling
 
