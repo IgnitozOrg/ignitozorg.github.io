@@ -11,15 +11,16 @@ Dependency installation currently lacks a shared policy to prevent automatic exe
 - **BREAKING**: Restrict the supported Node.js runtime to `>=24.0.0 <25.0.0`; installations outside that range or with dependencies declaring incompatible engines must fail under the project policy.
 - **BREAKING**: Stop automatic execution of installation lifecycle scripts. Explicit project commands remain available, without their automatic pre- and post-scripts.
 - Require a clean installation and production build to succeed on a compatible Node.js 24 runtime with all installation restrictions active.
+- Integrate browser preparation into the existing end-to-end test entry point so developers can start preparation and tests with one command while automatic npm installation hooks remain disabled.
 - Document the three policy rules, the supported Node.js range, and any necessary manual dependency preparation steps in the development guide.
 
-Scope includes installation policy, existing dependency declarations, runtime compatibility, installation/build validation, and developer documentation. Dependency upgrades, additional security audit tools, and guarantees that dependencies are free of vulnerabilities are outside scope.
+Scope includes installation policy, existing dependency declarations, runtime compatibility, installation/build validation, browser preparation through the existing test entry point, and developer documentation. Dependency upgrades, additional security audit tools, changes to application test assertions, and guarantees that dependencies are free of vulnerabilities are outside scope.
 
 ## Capabilities
 
 ### New Capabilities
 
-- `dependency-management`: Predictable and restricted dependency installation, covering exact direct dependency versions, supported runtime compatibility, suppressed automatic installation scripts, continued build usability, and developer guidance.
+- `dependency-management`: Predictable and restricted dependency installation, covering exact direct dependency versions, supported runtime compatibility, suppressed automatic installation scripts, continued build usability, browser preparation for testing, and developer guidance.
 
 ### Modified Capabilities
 

@@ -17,5 +17,5 @@
 ## 3. Installation and build integration
 
 - [x] 3.1 Record a clean `npm ci` followed by `npm run build` in a disposable project copy on compatible Node.js 24; verify all three settings remain active, both commands succeed, and dependency metadata and the resolved graph remain unchanged, recording Node.js and npm versions.
-- [ ] 3.2 Document any targeted manual preparation found necessary for supported development workflows in the README, retaining explicit browser installation guidance; verify the documented steps work with script suppression active and do not introduce policy overrides into production installation or build.
-- [ ] 3.3 Review the final diff and recorded validation against every dependency-management scenario; verify no dependency upgrades or unrelated application changes were introduced and run `openspec validate secure-npm-dependency-installation --strict` successfully.
+- [x] 3.2 Integrate browser preparation into the existing `test:e2e` script and update README guidance to one command; verify `npm run test:e2e -- --list` prepares or reuses browsers and reaches test discovery on Node.js 24.18.0 with script suppression active, and confirm preparation failure prevents discovery.
+- [x] 3.3 Review the final diff and recorded validation against every dependency-management scenario; verify no dependency upgrades or unrelated application changes were introduced and run `openspec validate secure-npm-dependency-installation --strict` successfully.

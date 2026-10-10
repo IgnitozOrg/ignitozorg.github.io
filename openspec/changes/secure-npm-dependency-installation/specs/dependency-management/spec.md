@@ -72,6 +72,22 @@ The existing project dependencies SHALL support a clean lockfile-based installat
 - **THEN** installation and compilation succeed with all installation policy restrictions active
 - **AND** no automatic installation scripts are required for that workflow to succeed
 
+### Requirement: Browser preparation is integrated with end-to-end testing
+The project's existing end-to-end test entry point SHALL prepare the browser binaries required by the locked test tooling before starting the test runner, without a separate developer preparation command or an automatic npm installation hook. Preparation failure SHALL prevent the test runner from starting.
+
+#### Scenario: Required browsers are absent
+- **WHEN** a developer invokes the end-to-end test entry point in a compatible environment without the required browser binaries
+- **THEN** those binaries are prepared before the test runner starts
+- **AND** automatic npm installation scripts remain suppressed
+
+#### Scenario: Required browsers are already present
+- **WHEN** a developer invokes the end-to-end test entry point with the required browser binaries already prepared
+- **THEN** the existing binaries are reused and the test runner starts
+
+#### Scenario: Browser preparation fails
+- **WHEN** browser preparation fails while invoking the end-to-end test entry point
+- **THEN** the invocation reports failure and does not start the test runner
+
 ### Requirement: Developer installation guidance
 The project SHALL provide development documentation explaining the three installation policy rules, the supported Node.js range, and any manual preparation required for dependencies that rely on installation scripts.
 
@@ -79,6 +95,7 @@ The project SHALL provide development documentation explaining the three install
 - **WHEN** a developer consults the project's development documentation
 - **THEN** the effects of exact-version saving, strict engine compatibility, and automatic script suppression are explained
 - **AND** the supported Node.js range is stated
+- **AND** the documentation explains that the end-to-end test entry point prepares browser binaries before running tests
 
 #### Scenario: Dependency requires manual preparation
 - **WHEN** a supported development workflow requires a dependency preparation step normally performed by an installation script

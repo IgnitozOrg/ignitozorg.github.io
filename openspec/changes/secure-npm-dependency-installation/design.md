@@ -40,11 +40,21 @@ Use small local fixture packages in temporary directories to verify exact-versio
 
 This provides evidence of policy behavior that a successful build alone cannot establish. No permanent application test suite is needed for this configuration change.
 
-### 5. Document supported workflows and manual preparation
+### 5. Prepare browsers through the existing test entry point
+
+Set the existing `test:e2e` script to `playwright install && playwright test`. npm resolves both commands from the locked local Playwright package. The first command ensures the required browser binaries are present; `&&` prevents test execution if preparation fails. Cached browsers are reused on subsequent invocations. Do not add dependencies or a separate preparation script.
+
+Keep preparation inside the explicitly invoked script. A `pretest:e2e` or `postinstall` hook would be skipped by `ignore-scripts=true`. The change preserves test-runner argument forwarding, such as `npm run test:e2e -- --list`.
+
+Use Node.js 24.18.0 as the validated runtime: Node.js 24.16.0 reproduced a ZIP extraction regression with the locked Playwright version, while 24.18.0 completed extraction and browser installation. Keep the compatibility range unchanged. Future Linux runners still need system libraries prepared through `playwright install --with-deps`; no remote workflow changes are part of this implementation.
+
+Verify the actual npm entry point using cached browsers and test discovery, with script suppression active. Record application assertion outcomes separately from browser preparation and command integration.
+
+### 6. Document supported workflows and preparation
 
 Update the README development section to state the supported runtime, explain each rule, recommend `npm ci` for reproducing the locked environment, and distinguish deliberate dependency changes from reproducible installation. Explain that explicit project scripts still run while their pre/post hooks are suppressed.
 
-Document only manual preparation steps found necessary during validation, including existing explicit browser installation for end-to-end testing. If a dependency genuinely needs preparation, identify and review its specific step; do not recommend globally disabling script suppression or bulk rebuilding all dependencies. Production installation and build must pass with the policy active.
+Document `npm run test:e2e` as the single browser-preparation and test entry point. Explain the validated runtime and any environment preparation required on Linux. For other dependencies, document only targeted preparation steps found necessary during validation; do not recommend globally disabling script suppression or bulk rebuilding all dependencies. Production installation and build must pass with the policy active.
 
 ## Risks / Trade-offs
 
@@ -52,12 +62,13 @@ Document only manual preparation steps found necessary during validation, includ
 - Metadata edits can drift from resolved versions → Compare every direct declaration and the complete resolved graph, then require a successful clean installation.
 - Previously accepted Node.js versions become unsupported → Document the migration to Node.js 24 and keep CI on that major version.
 - Configuration can be overridden by developers or external CI environment settings → Verify effective configuration during validation and keep the documented workflow free of overrides.
+- Browser preparation can need network access when the required binaries are missing → Reuse Playwright's browser cache and stop before tests if the download fails; Linux system libraries remain an environment prerequisite.
 
 ## Migration Plan
 
 1. Snapshot the current lockfile's resolved package graph and direct versions.
 2. Apply `.npmrc`, exact dependency declarations, and matching manifest/lockfile runtime metadata together.
-3. Validate isolated policy behavior and a clean installation/build on compatible Node.js 24; update developer and stack documentation from the results.
+3. Integrate browser preparation into the existing E2E entry point; validate isolated policy behavior, clean installation/build, and preparation followed by test discovery on compatible Node.js 24. Update developer and stack documentation from the results.
 4. Deliver configuration, metadata, and documentation as one change. The existing deployment workflow consumes the new policy on its next build.
 
 Rollback consists of reverting the configuration, metadata, and documentation changes together and reinstalling from the restored lockfile. No application data migration is required.

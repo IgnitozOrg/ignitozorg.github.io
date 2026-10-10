@@ -74,17 +74,17 @@ Run unit tests:
 npm run test:unit
 ```
 
-Install Playwright browsers explicitly, then run end-to-end tests. Browser
-installation is a manual preparation step and remains available with the npm
-policy active:
+Run end-to-end tests. The script prepares the Playwright browsers before starting
+the test runner, so no separate browser installation command is required:
 
 ```sh
-npx playwright install
 npm run test:e2e
 ```
 
 To run browsers without windows locally, use `CI=true npm run test:e2e` after
 `npm run build`. For a future Linux CI runner, select the same validated Node.js
 patch and prepare browsers with `npx playwright install --with-deps`, which also
-installs required system libraries. These explicit preparation commands do not
-require disabling `ignore-scripts`.
+installs required system libraries. The test script still prepares browsers;
+Linux system-library preparation is an environment setup step. Browser
+preparation runs inside the explicitly invoked test script, not in an npm
+installation hook, and does not require disabling `ignore-scripts`.
