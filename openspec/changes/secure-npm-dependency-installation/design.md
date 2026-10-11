@@ -28,7 +28,7 @@ Directly synchronizing this metadata avoids invoking a fresh dependency resoluti
 
 ### 3. Declare Node.js 24 compatibility in project metadata
 
-Set `engines.node` to `>=24.0.0 <25.0.0` in `package.json` and the lockfile's root package metadata. Retain CI's existing Node.js 24 selection. Update the runtime range in `docs/stack.md` to avoid contradicting the README.
+Set `engines.node` to `>=24.18.0 <25.0.0` in `package.json` and the lockfile's root package metadata. Retain CI's existing Node.js 24 selection. Update the runtime range in `docs/stack.md` to avoid contradicting the README.
 
 An exact runtime version would unnecessarily restrict compatible patch updates. The project range does not guarantee that every Node.js 24 patch satisfies every dependency's own engine declaration; validation uses a Node.js 24 version compatible with the locked graph and records the actual Node.js and npm versions.
 
@@ -36,7 +36,7 @@ An exact runtime version would unnecessarily restrict compatible patch updates. 
 
 Use a disposable checkout or temporary project copy for a clean `npm ci` and `npm run build` with the policy active, avoiding reliance on existing installed artifacts. Verify effective values for all three npm settings and compare dependency resolution before and after migration.
 
-Use small local fixture packages in temporary directories to verify exact-version saving, rejection of an incompatible dependency engine, suppression of installation scripts, and explicit script execution without associated pre/post hooks. Use an available unsupported Node.js runtime to verify project engine rejection. Keep fixtures separate from the application manifest and lockfile; record any unavailable runtime checks as unverified rather than claiming they passed.
+Use small local fixture packages in temporary directories to verify exact-version saving, rejection of an incompatible dependency engine, suppression of installation scripts, and explicit script execution without associated pre/post hooks. Verify project engine rejection with Node.js 24.16.0 and acceptance at the minimum supported version, 24.18.0. Use an available unsupported major version to verify the remaining range boundary. Keep fixtures separate from the application manifest and lockfile; record any unavailable runtime checks as unverified rather than claiming they passed.
 
 This provides evidence of policy behavior that a successful build alone cannot establish. No permanent application test suite is needed for this configuration change.
 
@@ -46,7 +46,7 @@ Set the existing `test:e2e` script to `playwright install && playwright test`. n
 
 Keep preparation inside the explicitly invoked script. A `pretest:e2e` or `postinstall` hook would be skipped by `ignore-scripts=true`. The change preserves test-runner argument forwarding, such as `npm run test:e2e -- --list`.
 
-Use Node.js 24.18.0 as the validated runtime: Node.js 24.16.0 reproduced a ZIP extraction regression with the locked Playwright version, while 24.18.0 completed extraction and browser installation. Keep the compatibility range unchanged. Future Linux runners still need system libraries prepared through `playwright install --with-deps`; no remote workflow changes are part of this implementation.
+Use Node.js 24.18.0 as the validated runtime: Node.js 24.16.0 reproduced a ZIP extraction regression with the locked Playwright version, while 24.18.0 completed extraction and browser installation. Declare 24.18.0 as the minimum supported version so `engine-strict=true` rejects earlier patches before browser preparation. Record the regression rationale here rather than in the README. See the [Node.js issue](https://github.com/nodejs/node/issues/63487) and [24.18.0 release notes](https://nodejs.org/en/blog/release/v24.18.0). Future Linux runners still need system libraries prepared through `playwright install --with-deps`; no remote workflow changes are part of this implementation.
 
 Verify the actual npm entry point using cached browsers and test discovery, with script suppression active. Record application assertion outcomes separately from browser preparation and command integration.
 
@@ -54,7 +54,7 @@ Verify the actual npm entry point using cached browsers and test discovery, with
 
 Update the README development section to state the supported runtime, explain each rule, recommend `npm ci` for reproducing the locked environment, and distinguish deliberate dependency changes from reproducible installation. Explain that explicit project scripts still run while their pre/post hooks are suppressed.
 
-Document `npm run test:e2e` as the single browser-preparation and test entry point. Explain the validated runtime and any environment preparation required on Linux. For other dependencies, document only targeted preparation steps found necessary during validation; do not recommend globally disabling script suppression or bulk rebuilding all dependencies. Production installation and build must pass with the policy active.
+Document `npm run test:e2e` as the single browser-preparation and test entry point. State the supported runtime range and necessary Linux system-library preparation concisely; keep runtime regression history in this design. For other dependencies, document only targeted preparation steps found necessary during validation; do not recommend globally disabling script suppression or bulk rebuilding all dependencies. Production installation and build must pass with the policy active.
 
 ## Risks / Trade-offs
 
