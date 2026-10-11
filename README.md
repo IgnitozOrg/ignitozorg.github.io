@@ -23,19 +23,7 @@ Explicit commands such as `npm run dev`, `npm run build`, and `npm run test:unit
 still execute their requested scripts, but automatically associated pre- and
 post-scripts are skipped. Keep these settings active when installing and building.
 
-Use Node.js 24 (`>=24.0.0 <25.0.0`). The selected patch must also satisfy the
-locked dependencies' own engine requirements. CI uses Node.js 24.
-
-Node.js **24.18.0** is the validated runtime for browser preparation. Node.js
-24.16.0 has a [ZIP extraction regression](https://github.com/nodejs/node/issues/63487)
-that can block this locked Playwright version; the fix is included in
-[Node.js 24.18.0](https://nodejs.org/en/blog/release/v24.18.0).
-If you use nvm, select the validated runtime with:
-
-```sh
-nvm install 24.18.0
-nvm use 24.18.0
-```
+Use Node.js 24.18.0 or a later Node.js 24 release (`>=24.18.0 <25.0.0`).
 
 Install the versions recorded in `package-lock.json`:
 
@@ -45,8 +33,7 @@ npm ci
 
 To deliberately add or update a dependency, run `npm install <package>@<version>`
 (add `--save-dev` for a development dependency). npm saves the exact version;
-review and commit both `package.json` and `package-lock.json`. Existing direct
-dependencies are pinned to the versions already resolved in the lockfile.
+review and commit both `package.json` and `package-lock.json`.
 
 Run the local development server:
 
@@ -81,10 +68,5 @@ the test runner, so no separate browser installation command is required:
 npm run test:e2e
 ```
 
-To run browsers without windows locally, use `CI=true npm run test:e2e` after
-`npm run build`. For a future Linux CI runner, select the same validated Node.js
-patch and prepare browsers with `npx playwright install --with-deps`, which also
-installs required system libraries. The test script still prepares browsers;
-Linux system-library preparation is an environment setup step. Browser
-preparation runs inside the explicitly invoked test script, not in an npm
-installation hook, and does not require disabling `ignore-scripts`.
+Tests run headless. Linux environments also need system libraries, which can be
+prepared with `npx playwright install --with-deps`. Keep `ignore-scripts` enabled.

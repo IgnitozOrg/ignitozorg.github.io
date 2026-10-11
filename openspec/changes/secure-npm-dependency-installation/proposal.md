@@ -8,7 +8,7 @@ Dependency installation currently lacks a shared policy to prevent automatic exe
 
 - Establish a version-controlled npm installation policy that saves exact dependency versions, enforces declared engine compatibility, and disables automatic installation scripts.
 - Convert all existing direct production and development dependency declarations to the exact versions already resolved in the lockfile, preserving resolved package versions and keeping dependency metadata synchronized.
-- **BREAKING**: Restrict the supported Node.js runtime to `>=24.0.0 <25.0.0`; installations outside that range or with dependencies declaring incompatible engines must fail under the project policy.
+- **BREAKING**: Restrict the supported Node.js runtime to `>=24.18.0 <25.0.0`; installations outside that range or with dependencies declaring incompatible engines must fail under the project policy.
 - **BREAKING**: Stop automatic execution of installation lifecycle scripts. Explicit project commands remain available, without their automatic pre- and post-scripts.
 - Require a clean installation and production build to succeed on a compatible Node.js 24 runtime with all installation restrictions active.
 - Integrate browser preparation into the existing end-to-end test entry point so developers can start preparation and tests with one command while automatic npm installation hooks remain disabled.

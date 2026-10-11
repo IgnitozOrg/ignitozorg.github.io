@@ -34,10 +34,10 @@ Converting existing dependency declarations to exact versions SHALL use the vers
 - **AND** the resulting dependency declarations and lockfile metadata are consistent
 
 ### Requirement: Supported Node.js runtime
-The project SHALL declare Node.js compatibility as `>=24.0.0 <25.0.0`. Installation under the project policy SHALL reject a runtime outside this range and reject packages whose declared engine requirements are incompatible with the installation environment.
+The project SHALL declare Node.js compatibility as `>=24.18.0 <25.0.0`. Installation under the project policy SHALL reject a runtime outside this range and reject packages whose declared engine requirements are incompatible with the installation environment.
 
 #### Scenario: Runtime is outside the supported range
-- **WHEN** installation is attempted under the project policy using Node.js below 24.0.0 or at least 25.0.0
+- **WHEN** installation is attempted under the project policy using Node.js below 24.18.0 or at least 25.0.0
 - **THEN** installation fails with an engine compatibility error
 
 #### Scenario: Dependency declares an incompatible engine
