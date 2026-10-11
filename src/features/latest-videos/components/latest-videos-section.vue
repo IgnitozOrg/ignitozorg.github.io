@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import arrowRight from "../../../assets/icons/video-arrow-right.svg";
+import VideoCard from "./video-card/video-card.vue";
+import BaseButton from "../../../components/base-button/base-button.vue";
 import { useLatestVideos } from "../composables/use-latest-videos";
 
 const { errorMessage, status, videos } = useLatestVideos();
@@ -10,8 +13,24 @@ const hasError = computed(() => status.value === "error");
 </script>
 
 <template>
-  <section class="latest-videos" aria-labelledby="latest-videos-title">
-    <h2 class="latest-videos__title" id="latest-videos-title">Últimos videos</h2>
+  <section
+    :class="{ 'latest-videos--success': status === 'success' }"
+    class="latest-videos"
+    aria-labelledby="latest-videos-title"
+  >
+    <header class="latest-videos__header">
+      <h2 class="latest-videos__title" id="latest-videos-title">Últimos videos</h2>
+      <BaseButton
+        class="latest-videos__all"
+        variant="ghost"
+        href="https://www.youtube.com/@Ignitoz/videos"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Ver todos los videos
+        <img :src="arrowRight" alt="" aria-hidden="true">
+      </BaseButton>
+    </header>
 
     <div v-if="isLoading" class="latest-videos__grid" aria-label="Cargando videos recientes">
       <div v-for="item in 4" :key="item" class="latest-videos__tile latest-videos__tile--loading">
@@ -19,24 +38,8 @@ const hasError = computed(() => status.value === "error");
       </div>
     </div>
 
-    <div v-else-if="videos.length > 0" class="latest-videos__grid">
-      <a
-        v-for="video in videos"
-        :key="video.id"
-        class="latest-videos__tile latest-videos__tile--link"
-        :href="video.url"
-        target="_blank"
-        rel="noopener noreferrer"
-        :aria-label="`Ver ${video.title} en YouTube`"
-      >
-        <img
-          class="latest-videos__thumbnail"
-          :src="video.thumbnailUrl"
-          :alt="video.title"
-          loading="lazy"
-        >
-        <span class="latest-videos__sr-only">Ver {{ video.title }} en YouTube</span>
-      </a>
+    <div v-else-if="videos.length > 0" class="latest-videos__grid latest-videos__grid--success">
+      <VideoCard v-for="video in videos" :key="video.id" :video="video" />
     </div>
 
     <p v-else-if="isEmpty" class="latest-videos__message">

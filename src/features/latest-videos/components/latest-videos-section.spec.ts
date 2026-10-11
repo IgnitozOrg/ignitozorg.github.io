@@ -30,6 +30,23 @@ describe("LatestVideosSection", () => {
     serviceMocks.getLatestVideos.mockReset();
   });
 
+  it.each([
+    "success",
+    "empty",
+    "error",
+  ])("keeps channel navigation available in %s state", async (state) => {
+    if (state === "error") serviceMocks.getLatestVideos.mockRejectedValue(new Error("Failed"));
+    else serviceMocks.getLatestVideos.mockResolvedValue(state === "success" ? videos : []);
+    const wrapper = mount(LatestVideosSection);
+    await flushPromises();
+    expect(wrapper.find("h2").text()).toBe("Últimos videos");
+    const link = wrapper.get(".latest-videos__all");
+    expect(link.text()).toBe("Ver todos los videos");
+    expect(link.attributes("href")).toBe("https://www.youtube.com/@Ignitoz/videos");
+    expect(link.attributes("target")).toBe("_blank");
+    expect(link.attributes("rel")).toBe("noopener noreferrer");
+  });
+
   it("renders the loading state while videos are being requested", () => {
     serviceMocks.getLatestVideos.mockReturnValue(new Promise(() => undefined));
 
@@ -46,10 +63,13 @@ describe("LatestVideosSection", () => {
     const wrapper = mount(LatestVideosSection);
     await flushPromises();
 
-    const links = wrapper.findAll("a.latest-videos__tile");
-    const images = wrapper.findAll("img.latest-videos__thumbnail");
+    const links = wrapper.findAll("a.video-card");
+    const images = wrapper.findAll("img.video-card__thumbnail");
 
     expect(links).toHaveLength(2);
+    expect(wrapper.findAll(".video-card__title").map((item) => item.text())).toEqual(
+      videos.map((video) => video.title),
+    );
     expect(links[0]?.attributes("href")).toBe("https://www.youtube.com/watch?v=video-1");
     expect(links[0]?.attributes("target")).toBe("_blank");
     expect(links[0]?.attributes("rel")).toBe("noopener noreferrer");
@@ -65,8 +85,8 @@ describe("LatestVideosSection", () => {
     await flushPromises();
 
     expect(wrapper.text()).toContain("Todavía no hay videos públicos recientes para mostrar.");
-    expect(wrapper.find("a.latest-videos__tile").exists()).toBe(false);
-    expect(wrapper.find("img.latest-videos__thumbnail").exists()).toBe(false);
+    expect(wrapper.find("a.video-card").exists()).toBe(false);
+    expect(wrapper.find("img.video-card__thumbnail").exists()).toBe(false);
   });
 
   it("renders an understandable error state without fake video links", async () => {
@@ -77,7 +97,7 @@ describe("LatestVideosSection", () => {
 
     expect(wrapper.text()).toContain("No se pudieron cargar los últimos videos.");
     expect(wrapper.text()).toContain("YouTube API key is not configured.");
-    expect(wrapper.find("a.latest-videos__tile").exists()).toBe(false);
-    expect(wrapper.find("img.latest-videos__thumbnail").exists()).toBe(false);
+    expect(wrapper.find("a.video-card").exists()).toBe(false);
+    expect(wrapper.find("img.video-card__thumbnail").exists()).toBe(false);
   });
 });
